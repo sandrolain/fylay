@@ -1,4 +1,4 @@
-package flay
+package fylay
 
 import (
 	"encoding/xml"
@@ -12,7 +12,8 @@ import (
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/widget"
 
-	"fylay/src/flay/core"
+	"github.com/sandrolain/fylay/core"
+	"github.com/sandrolain/fylay/dialog"
 )
 
 // Constants for widget types and attributes
@@ -49,13 +50,31 @@ type Element struct {
 	Content    string     `xml:",chardata"`
 }
 
+// EventContext contiene le informazioni di contesto di un evento
+type EventContext struct {
+	// EventName è il nome dell'evento (es. "onclick", "onchange")
+	EventName string
+	// Target è l'elemento che ha generato l'evento
+	Target fyne.CanvasObject
+	// TargetID è l'ID dell'elemento che ha generato l'evento
+	TargetID string
+	// Value è il valore associato all'evento (per Entry)
+	Value string
+}
+
+// ButtonCallback è una funzione callback per eventi di pulsanti
+type ButtonCallback func(ctx *EventContext)
+
+// EntryCallback è una funzione callback per eventi Entry
+type EntryCallback func(ctx *EventContext)
+
 // Builder costruisce i widget Fyne dal layout
 type Builder struct {
 	styles          map[string]Style
 	elements        map[string]fyne.CanvasObject
 	eventHandler    EventHandler
-	eventCallbacks  map[string]func()
-	entryCallbacks  map[string]func(string)
+	eventCallbacks  map[string]ButtonCallback
+	entryCallbacks  map[string]EntryCallback
 	bindingContext  *BindingContext
 	templateContext *TemplateContext
 }
@@ -66,19 +85,13 @@ type EventHandler interface {
 	OnEntryChanged(id, value string)
 }
 
-// EventCallback è una funzione callback senza parametri
-type EventCallback func()
-
-// EntryCallback è una funzione callback per Entry con valore
-type EntryCallback func(value string)
-
 // NewBuilder crea un nuovo builder
 func NewBuilder() *Builder {
 	return &Builder{
 		styles:         make(map[string]Style),
 		elements:       make(map[string]fyne.CanvasObject),
-		eventCallbacks: make(map[string]func()),
-		entryCallbacks: make(map[string]func(string)),
+		eventCallbacks: make(map[string]ButtonCallback),
+		entryCallbacks: make(map[string]EntryCallback),
 	}
 }
 
@@ -88,12 +101,12 @@ func (b *Builder) SetEventHandler(handler EventHandler) {
 }
 
 // On registra una callback per un evento specifico (per pulsanti)
-func (b *Builder) On(eventName string, callback func()) {
+func (b *Builder) On(eventName string, callback ButtonCallback) {
 	b.eventCallbacks[eventName] = callback
 }
 
 // OnEntry registra una callback per eventi Entry
-func (b *Builder) OnEntry(eventName string, callback func(string)) {
+func (b *Builder) OnEntry(eventName string, callback EntryCallback) {
 	b.entryCallbacks[eventName] = callback
 }
 
@@ -288,11 +301,17 @@ func (b *Builder) buildButton(elem Element, style map[string]string) fyne.Canvas
 	// Verifica se c'è un attributo onclick
 	onclick := elem.getAttr("onclick")
 
-	btn := widget.NewButton(text, func() {
+	var btn *widget.Button
+	btn = widget.NewButton(text, func() {
 		// Prima prova a chiamare la callback registrata
 		if onclick != "" {
 			if callback, ok := b.eventCallbacks[onclick]; ok {
-				callback()
+				ctx := &EventContext{
+					EventName: onclick,
+					Target:    btn,
+					TargetID:  elem.ID,
+				}
+				callback(ctx)
 				return
 			}
 		}
@@ -329,7 +348,13 @@ func (b *Builder) buildEntry(elem Element, style map[string]string) fyne.CanvasO
 		// Prima prova a chiamare la callback registrata
 		if onchange != "" {
 			if callback, ok := b.entryCallbacks[onchange]; ok {
-				callback(value)
+				ctx := &EventContext{
+					EventName: onchange,
+					Target:    entry,
+					TargetID:  elem.ID,
+					Value:     value,
+				}
+				callback(ctx)
 				return
 			}
 		}
@@ -454,4 +479,34 @@ func (e *Element) getAttr(name string) string {
 		}
 	}
 	return ""
+}
+
+// ShowInfoDialog mostra un dialog informativo
+func (b *Builder) ShowInfoDialog(title, message string) {
+	dialog.Info(title, message)
+}
+
+// ShowErrorDialog mostra un dialog di errore
+func (b *Builder) ShowErrorDialog(title, message string) {
+	dialog.Error(title, message)
+}
+
+// ShowQuestionDialog mostra un dialog con domanda Yes/No
+func (b *Builder) ShowQuestionDialog(title, message string) bool {
+	return dialog.Question(title, message)
+}
+
+// ShowFileOpenDialog mostra un dialog per aprire file
+func (b *Builder) ShowFileOpenDialog(title string, filters ...dialog.FileFilter) (string, error) {
+	return dialog.FileOpen(title, filters...)
+}
+
+// ShowFileSaveDialog mostra un dialog per salvare file
+func (b *Builder) ShowFileSaveDialog(title string, filters ...dialog.FileFilter) (string, error) {
+	return dialog.FileSave(title, filters...)
+}
+
+// ShowDirSelectDialog mostra un dialog per selezionare directory
+func (b *Builder) ShowDirSelectDialog(title string) (string, error) {
+	return dialog.DirSelect(title)
 }

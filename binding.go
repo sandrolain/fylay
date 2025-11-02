@@ -1,4 +1,4 @@
-package flay
+package fylay
 
 import (
 	"fmt"
@@ -175,37 +175,37 @@ func (bc *BindingContext) BindWidgetToData(widgetID string, dataKey string) erro
 	}
 
 	// Bind based on widget and data type
-	switch widget := w.(type) {
+	switch wid := w.(type) {
 	case *widget.Label:
 		if strData, ok := data.(binding.String); ok {
-			widget.Bind(strData)
+			wid.Bind(strData)
 		} else {
 			return fmt.Errorf("label requires string binding")
 		}
 
 	case *widget.Entry:
 		if strData, ok := data.(binding.String); ok {
-			widget.Bind(strData)
+			wid.Bind(strData)
 		} else {
 			return fmt.Errorf("entry requires string binding")
 		}
 
 	case *widget.Check:
 		if boolData, ok := data.(binding.Bool); ok {
-			widget.Bind(boolData)
+			wid.Bind(boolData)
 		} else {
 			return fmt.Errorf("checkbox requires bool binding")
 		}
 
 	case *widget.Slider:
 		if floatData, ok := data.(binding.Float); ok {
-			widget.Bind(floatData)
+			wid.Bind(floatData)
 		} else {
 			return fmt.Errorf("slider requires float binding")
 		}
 
 	default:
-		return fmt.Errorf("unsupported widget type for binding: %T", widget)
+		return fmt.Errorf("unsupported widget type for binding: %T", wid)
 	}
 
 	// Track binding

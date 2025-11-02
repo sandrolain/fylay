@@ -1,4 +1,4 @@
-package flay
+package fylay
 
 import (
 	"strconv"
@@ -24,8 +24,14 @@ func (b *Builder) buildCheckbox(elem Element, style map[string]string) fyne.Canv
 	onchange := elem.getAttr("onchange")
 	if onchange != "" {
 		if callback, ok := b.eventCallbacks[onchange]; ok {
-			check.OnChanged = func(bool) {
-				callback()
+			check.OnChanged = func(checked bool) {
+				ctx := &EventContext{
+					EventName: onchange,
+					Target:    check,
+					TargetID:  elem.ID,
+					Value:     strconv.FormatBool(checked),
+				}
+				callback(ctx)
 			}
 		}
 	}
@@ -75,7 +81,15 @@ func (b *Builder) buildSelect(elem Element, style map[string]string) fyne.Canvas
 	onchange := elem.getAttr("onchange")
 	if onchange != "" {
 		if callback, ok := b.entryCallbacks[onchange]; ok {
-			sel.OnChanged = callback
+			sel.OnChanged = func(value string) {
+				ctx := &EventContext{
+					EventName: onchange,
+					Target:    sel,
+					TargetID:  elem.ID,
+					Value:     value,
+				}
+				callback(ctx)
+			}
 		}
 	}
 
@@ -169,8 +183,14 @@ func (b *Builder) buildSlider(elem Element, style map[string]string) fyne.Canvas
 	onchange := elem.getAttr("onchange")
 	if onchange != "" {
 		if callback, ok := b.eventCallbacks[onchange]; ok {
-			slider.OnChanged = func(float64) {
-				callback()
+			slider.OnChanged = func(value float64) {
+				ctx := &EventContext{
+					EventName: onchange,
+					Target:    slider,
+					TargetID:  elem.ID,
+					Value:     strconv.FormatFloat(value, 'f', -1, 64),
+				}
+				callback(ctx)
 			}
 		}
 	}
@@ -265,7 +285,15 @@ func (b *Builder) buildRadioGroup(elem Element, style map[string]string) fyne.Ca
 	onchange := elem.getAttr("onchange")
 	if onchange != "" {
 		if callback, ok := b.entryCallbacks[onchange]; ok {
-			radio.OnChanged = callback
+			radio.OnChanged = func(value string) {
+				ctx := &EventContext{
+					EventName: onchange,
+					Target:    radio,
+					TargetID:  elem.ID,
+					Value:     value,
+				}
+				callback(ctx)
+			}
 		}
 	}
 

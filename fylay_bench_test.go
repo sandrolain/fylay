@@ -1,4 +1,4 @@
-package flay
+package fylay
 
 import (
 	"bytes"
