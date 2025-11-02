@@ -1,0 +1,43 @@
+# Binari compilati
+bin/
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# File di test
+*.test
+*.out
+
+# Directory di dipendenze
+vendor/
+
+# Build output
+dist/
+build/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Go workspace
+go.work
+go.work.sum
+
+# Temporary files
+*.tmp
+*.bak
+*.log
+
+# Other
+
+/context
+/tmp
