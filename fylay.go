@@ -72,6 +72,7 @@ type EntryCallback func(ctx *EventContext)
 type Builder struct {
 	styles          map[string]Style
 	elements        map[string]fyne.CanvasObject
+	widgets         map[string]fyne.CanvasObject // Original widgets before wrapping
 	eventHandler    EventHandler
 	eventCallbacks  map[string]ButtonCallback
 	entryCallbacks  map[string]EntryCallback
@@ -90,6 +91,7 @@ func NewBuilder() *Builder {
 	return &Builder{
 		styles:         make(map[string]Style),
 		elements:       make(map[string]fyne.CanvasObject),
+		widgets:        make(map[string]fyne.CanvasObject),
 		eventCallbacks: make(map[string]ButtonCallback),
 		entryCallbacks: make(map[string]EntryCallback),
 	}
@@ -137,6 +139,14 @@ func (b *Builder) GetElement(id string) fyne.CanvasObject {
 	return b.elements[id]
 }
 
+// GetWidget restituisce il widget originale (non wrappato) per ID
+func (b *Builder) GetWidget(id string) fyne.CanvasObject {
+	if widget, ok := b.widgets[id]; ok {
+		return widget
+	}
+	return b.elements[id] // Fallback to element if no widget
+}
+
 // buildElement costruisce ricorsivamente un elemento
 func (b *Builder) buildElement(elem Element) (fyne.CanvasObject, error) {
 	// Calcola lo stile finale (combinando class, id e inline style)
@@ -182,10 +192,6 @@ func (b *Builder) buildElement(elem Element) (fyne.CanvasObject, error) {
 		obj = b.buildRadioGroup(elem, style)
 	default:
 		return nil, fmt.Errorf("tipo di elemento sconosciuto: %s", elem.XMLName.Local)
-	}
-
-	if obj != nil && elem.ID != "" {
-		b.elements[elem.ID] = obj
 	}
 
 	return obj, err
@@ -288,7 +294,20 @@ func (b *Builder) buildLabel(elem Element, style map[string]string) fyne.CanvasO
 		label.TextStyle.Italic = true
 	}
 
-	return label
+	// Store widget with ID before applying styles
+	if elem.ID != "" {
+		b.widgets[elem.ID] = label // Original widget
+	}
+
+	// Label doesn't typically need size styling, but support it for consistency
+	styled := applyMinSize(label, style)
+
+	// Store the final styled version
+	if elem.ID != "" {
+		b.elements[elem.ID] = styled
+	}
+
+	return styled
 }
 
 // buildButton costruisce un pulsante
@@ -322,7 +341,20 @@ func (b *Builder) buildButton(elem Element, style map[string]string) fyne.Canvas
 		}
 	})
 
-	return btn
+	// Store widget with ID before applying styles
+	if elem.ID != "" {
+		b.widgets[elem.ID] = btn // Original widget
+	}
+
+	// Apply common styles (width, height) - may wrap in container
+	styled := applyMinSize(btn, style)
+
+	// Store the final styled version
+	if elem.ID != "" {
+		b.elements[elem.ID] = styled
+	}
+
+	return styled
 }
 
 // buildEntry costruisce un campo di input
@@ -365,7 +397,20 @@ func (b *Builder) buildEntry(elem Element, style map[string]string) fyne.CanvasO
 		}
 	}
 
-	return entry
+	// Store widget with ID before applying styles
+	if elem.ID != "" {
+		b.widgets[elem.ID] = entry // Original widget
+	}
+
+	// Apply common styles (width, height) - may wrap in container
+	styled := applyMinSize(entry, style)
+
+	// Store the final styled version
+	if elem.ID != "" {
+		b.elements[elem.ID] = styled
+	}
+
+	return styled
 }
 
 // buildRectangle costruisce un rettangolo
@@ -384,6 +429,11 @@ func (b *Builder) buildRectangle(elem Element, style map[string]string) fyne.Can
 		}
 	}
 
+	// Store canvas object with ID
+	if elem.ID != "" {
+		b.elements[elem.ID] = rect
+	}
+
 	return rect
 }
 
@@ -395,6 +445,11 @@ func (b *Builder) buildCircle(elem Element, style map[string]string) fyne.Canvas
 		if width, err := parseSize(w); err == nil {
 			circle.Resize(fyne.NewSize(width, width))
 		}
+	}
+
+	// Store canvas object with ID
+	if elem.ID != "" {
+		b.elements[elem.ID] = circle
 	}
 
 	return circle
@@ -424,6 +479,11 @@ func (b *Builder) buildText(elem Element, style map[string]string) fyne.CanvasOb
 		case alignLeft:
 			txt.Alignment = fyne.TextAlignLeading
 		}
+	}
+
+	// Store canvas object with ID
+	if elem.ID != "" {
+		b.elements[elem.ID] = txt
 	}
 
 	return txt

@@ -44,12 +44,21 @@ func (b *Builder) buildCheckbox(elem Element, style map[string]string) fyne.Canv
 		check.Bind(boolData)
 	}
 
-	// Register widget
+	// Register widget with ID before applying styles
 	if elem.ID != "" {
 		b.GetBindingContext().RegisterWidget(elem.ID, check)
+		b.widgets[elem.ID] = check // Original widget
 	}
 
-	return check
+	// Apply common styles (width, height) - may wrap in container
+	styled := applyMinSize(check, style)
+
+	// Store the final styled version
+	if elem.ID != "" {
+		b.elements[elem.ID] = styled
+	}
+
+	return styled
 }
 
 // buildSelect costruisce un widget Select (dropdown)
@@ -101,12 +110,21 @@ func (b *Builder) buildSelect(elem Element, style map[string]string) fyne.Canvas
 		sel.Bind(strData)
 	}
 
-	// Register widget
+	// Register widget with ID before applying styles
 	if elem.ID != "" {
 		b.GetBindingContext().RegisterWidget(elem.ID, sel)
+		b.widgets[elem.ID] = sel // Original widget
 	}
 
-	return sel
+	// Apply common styles (width, height) - may wrap in container
+	styled := applyMinSize(sel, style)
+
+	// Store the final styled version
+	if elem.ID != "" {
+		b.elements[elem.ID] = styled
+	}
+
+	return styled
 }
 
 // buildProgressBar costruisce un widget ProgressBar
@@ -137,12 +155,21 @@ func (b *Builder) buildProgressBar(elem Element, style map[string]string) fyne.C
 		progress.Bind(floatData)
 	}
 
-	// Register widget
+	// Register widget with ID before applying styles
 	if elem.ID != "" {
 		b.GetBindingContext().RegisterWidget(elem.ID, progress)
+		b.widgets[elem.ID] = progress // Original widget
 	}
 
-	return progress
+	// Apply common styles (width, height) - may wrap in container
+	styled := applyMinSize(progress, style)
+
+	// Store the final styled version
+	if elem.ID != "" {
+		b.elements[elem.ID] = styled
+	}
+
+	return styled
 }
 
 // buildSlider costruisce un widget Slider
@@ -203,12 +230,21 @@ func (b *Builder) buildSlider(elem Element, style map[string]string) fyne.Canvas
 		slider.Bind(floatData)
 	}
 
-	// Register widget
+	// Register widget with ID before applying styles
 	if elem.ID != "" {
 		b.GetBindingContext().RegisterWidget(elem.ID, slider)
+		b.widgets[elem.ID] = slider // Original widget
 	}
 
-	return slider
+	// Apply common styles (width, height) - may wrap in container
+	styled := applyMinSize(slider, style)
+
+	// Store the final styled version
+	if elem.ID != "" {
+		b.elements[elem.ID] = styled
+	}
+
+	return styled
 }
 
 // buildImage costruisce un widget Image
@@ -253,7 +289,23 @@ func (b *Builder) buildImage(elem Element, style map[string]string) fyne.CanvasO
 		img.FillMode = canvas.ImageFillContain
 	}
 
-	return img
+	// Register widget with ID before applying styles
+	if elem.ID != "" {
+		b.widgets[elem.ID] = img // Original widget
+	}
+
+	// Apply common styles (width, height) if not already set by attributes - may wrap in container
+	var styled fyne.CanvasObject = img
+	if elem.getAttr("width") == "" || elem.getAttr("height") == "" {
+		styled = applyMinSize(img, style)
+	}
+
+	// Store the final styled version
+	if elem.ID != "" {
+		b.elements[elem.ID] = styled
+	}
+
+	return styled
 }
 
 // buildRadioGroup costruisce un widget RadioGroup
@@ -300,10 +352,19 @@ func (b *Builder) buildRadioGroup(elem Element, style map[string]string) fyne.Ca
 	// Note: RadioGroup doesn't support direct binding in Fyne
 	// Binding would need to be done through OnChanged callback
 
-	// Register widget
+	// Register widget with ID before applying styles
 	if elem.ID != "" {
 		b.GetBindingContext().RegisterWidget(elem.ID, radio)
+		b.widgets[elem.ID] = radio // Original widget
 	}
 
-	return radio
+	// Apply common styles (width, height) - may wrap in container
+	styled := applyMinSize(radio, style)
+
+	// Store the final styled version
+	if elem.ID != "" {
+		b.elements[elem.ID] = styled
+	}
+
+	return styled
 }
