@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Layout>
+  <Style selector=".title">
+    font-weight: bold;
+    font-size: 18px;
+  </Style>
+
+  <Style selector=".button">
+    margin: 5px;
+  </Style>
+
+  <Style selector=".result">
+    margin: 10px;
+    padding: 10px;
+  </Style>
+
+  <VBox>
+    <Label class="title" text="Dialog Examples" />
+
+    <Label text="Message Dialogs:" style="margin-top: 20px; font-weight: bold;" />
+    <HBox>
+      <Button class="button" onclick="onShowInfo">Info Dialog</Button>
+      <Button class="button" onclick="onShowError">Error Dialog</Button>
+      <Button class="button" onclick="onShowQuestion">Question Dialog</Button>
+    </HBox>
+
+    <Label text="File Dialogs:" style="margin-top: 20px; font-weight: bold;" />
+    <HBox>
+      <Button class="button" onclick="onOpenFile">Open File</Button>
+      <Button class="button" onclick="onSaveFile">Save File</Button>
+      <Button class="button" onclick="onSelectDir">Select Directory</Button>
+    </HBox>
+
+    <Label id="resultLabel" class="result" text="Result will appear here..." />
+
+    <Label text="Content:" style="margin-top: 10px; font-weight: bold;" />
+    <Entry id="contentArea" multiline="true" placeholder="File content will appear here..." />
+  </VBox>
+</Layout>

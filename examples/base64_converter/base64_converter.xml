@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Layout>
+  <!-- Styles -->
+  <Style selector=".container">
+    padding: 10;
+  </Style>
+
+  <Style selector=".section-title">
+    font-size: 14;
+    font-weight: bold;
+    padding: 5 0;
+  </Style>
+
+  <Style selector=".text-area">
+    min-height: 200;
+  </Style>
+
+  <Style selector=".button-row">
+    padding: 10 0;
+  </Style>
+
+  <Style selector=".convert-button">
+    min-width: 200;
+  </Style>
+
+  <Style selector=".file-button">
+    min-width: 150;
+  </Style>
+
+  <Style selector=".info-label">
+    font-size: 12;
+    color: #666666;
+  </Style>
+
+  <!-- Layout -->
+  <VBox class="container">
+    <!-- Input Section -->
+    <Label class="section-title" text="Input" />
+    <Entry id="inputArea" class="text-area" multiline="true"
+      placeholder="Enter text or load from file..." />
+
+    <HBox class="button-row">
+      <Button id="loadFileBtn" class="file-button" text="Encode File to Base64" onclick="onLoadFile" />
+      <Spacer />
+      <Label id="inputInfo" class="info-label" text="Chars: 0 | Bytes: 0" />
+    </HBox>
+
+    <!-- Conversion Buttons -->
+    <HBox class="button-row">
+      <Spacer />
+      <Button id="encodeBtn" class="convert-button" text="Encode to Base64 ▼" onclick="onEncode" />
+      <Button id="decodeBtn" class="convert-button" text="Decode from Base64 ▲" onclick="onDecode" />
+      <Spacer />
+    </HBox>
+
+    <!-- Output Section -->
+    <Label class="section-title" text="Output" />
+    <Entry id="outputArea" class="text-area" multiline="true"
+      placeholder="Result will appear here..." readonly="true" />
+
+    <HBox class="button-row">
+      <Button id="saveFileBtn" class="file-button" text="Save to File" onclick="onSaveFile" />
+      <Spacer />
+      <Label id="outputInfo" class="info-label" text="Chars: 0 | Bytes: 0" />
+    </HBox>
+
+    <!-- Status Bar -->
+    <Rectangle style="background-color: #bdc3c7; height: 1; margin: 10 0;" />
+    <Label id="statusLabel" class="info-label" text="Ready" />
+  </VBox>
+</Layout>

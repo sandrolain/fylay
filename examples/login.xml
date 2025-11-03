@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Layout>
+  <!-- Stili CSS -->
+  <Style selector=".title">
+    font-size: 24;
+    font-weight: bold;
+    text-align: center;
+    color: #333333;
+  </Style>
+
+  <Style selector=".subtitle">
+    font-size: 14;
+    text-align: center;
+    color: #666666;
+  </Style>
+
+  <Style selector=".primary-button">
+    background-color: #0066cc;
+  </Style>
+
+  <Style selector=".secondary-button">
+    background-color: #999999;
+  </Style>
+
+  <Style selector=".input-field">
+    width: 300;
+  </Style>
+
+  <Style selector=".separator">
+    background-color: #e0e0e0;
+    height: 1;
+  </Style>
+
+  <!-- Layout principale -->
+  <VBox>
+    <!-- Header -->
+    <VBox style="padding: 20;">
+      <Text class="title">Login Form</Text>
+      <Text class="subtitle">Inserisci le tue credenziali per accedere</Text>
+    </VBox>
+
+    <Rectangle class="separator" />
+
+    <!-- Form -->
+    <VBox style="padding: 30;">
+      <Label style="font-weight: bold; margin-bottom: 5;">Username:</Label>
+      <Entry id="usernameField" class="input-field" placeholder="Inserisci username" />
+
+      <Spacer />
+
+      <Label style="font-weight: bold; margin-bottom: 5;">Password:</Label>
+      <Entry id="passwordField" class="input-field" placeholder="Inserisci password" password="true" />
+
+      <Spacer />
+
+      <!-- Bottoni -->
+      <HBox style="margin-top: 20;">
+        <Button id="loginBtn" class="primary-button">Login</Button>
+        <Spacer />
+        <Button id="cancelBtn" class="secondary-button">Annulla</Button>
+      </HBox>
+    </VBox>
+
+    <Rectangle class="separator" />
+
+    <!-- Footer -->
+    <VBox style="padding: 10;">
+      <Label style="text-align: center; font-size: 10; color: #999999;">
+        © 2025 Fylay - Powered by Fyne
+      </Label>
+    </VBox>
+  </VBox>
+</Layout>

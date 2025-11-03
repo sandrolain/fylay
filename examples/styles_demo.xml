@@ -1,0 +1,56 @@
+<Layout>
+  <!-- CSS Styles for demonstration -->
+  <Style selector=".large-button">
+    width: 300px;
+    height: 60px;
+  </Style>
+
+  <Style selector=".small-button">
+    width: 150px;
+    height: 40px;
+  </Style>
+
+  <Style selector="#specialEntry">
+    width: 400px;
+    height: 100px;
+  </Style>
+
+  <Style selector=".wide-slider">
+    width: 500px;
+  </Style>
+
+  <!-- Main layout -->
+  <VBox>
+    <Label text="CSS Styles Demonstration" style="font-weight: bold; text-align: center" />
+    <Label text="This demo shows how CSS styles (width/height) are applied to widgets" />
+
+    <!-- Buttons with different styles -->
+    <HBox>
+      <Button class="large-button">Large Button (300x60)</Button>
+      <Button class="small-button">Small (150x40)</Button>
+      <Button style="width: 200px; height: 50px">Inline Style (200x50)</Button>
+    </HBox>
+
+    <!-- Entry with ID style -->
+    <Entry id="specialEntry"
+      placeholder="This Entry has width: 400px and height: 100px from CSS ID selector"
+      multiline="true" />
+
+    <!-- Entry with class style -->
+    <Entry class="small-button" placeholder="This Entry reuses the small-button class" />
+
+    <!-- Slider with style -->
+    <Slider class="wide-slider" min="0" max="100" value="50" />
+
+    <!-- Mix of class and inline styles (inline wins) -->
+    <Button class="small-button" style="width: 250px">
+      Class says 150px, but inline style overrides to 250px
+    </Button>
+
+    <!-- Progress bar with style -->
+    <ProgressBar style="width: 400px" value="0.7" />
+
+    <!-- Checkbox with style -->
+    <Checkbox label="Styled Checkbox" style="width: 200px; height: 50px" />
+  </VBox>
+</Layout>

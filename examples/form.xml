@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Layout>
+  <!-- Stili -->
+  <Style selector=".section-title">
+    font-size: 16;
+    font-weight: bold;
+    color: #2c3e50;
+  </Style>
+
+  <Style selector=".input-label">
+    font-weight: bold;
+    font-size: 12;
+  </Style>
+
+  <Style selector=".button-primary">
+    background-color: #27ae60;
+  </Style>
+
+  <Style selector=".button-danger">
+    background-color: #e74c3c;
+  </Style>
+
+  <!-- Form Layout -->
+  <VBox style="padding: 20;">
+    <Label class="section-title">Modulo di Registrazione</Label>
+    <Rectangle style="background-color: #95a5a6; height: 2; margin: 10;" />
+
+    <!-- Sezione dati personali -->
+    <VBox style="margin-bottom: 20;">
+      <Label class="section-title" style="font-size: 14;">Dati Personali</Label>
+
+      <HBox style="margin-top: 10;">
+        <VBox>
+          <Label class="input-label">Nome:</Label>
+          <Entry id="firstName" placeholder="Inserisci nome" />
+        </VBox>
+
+        <VBox>
+          <Label class="input-label">Cognome:</Label>
+          <Entry id="lastName" placeholder="Inserisci cognome" />
+        </VBox>
+      </HBox>
+
+      <Label class="input-label" style="margin-top: 10;">Email:</Label>
+      <Entry id="email" placeholder="email@esempio.com" />
+
+      <Label class="input-label" style="margin-top: 10;">Telefono:</Label>
+      <Entry id="phone" placeholder="+39 123 456 7890" />
+    </VBox>
+
+    <!-- Sezione indirizzo -->
+    <VBox style="margin-bottom: 20;">
+      <Label class="section-title" style="font-size: 14;">Indirizzo</Label>
+
+      <Label class="input-label" style="margin-top: 10;">Via:</Label>
+      <Entry id="street" placeholder="Via, numero civico" />
+
+      <HBox style="margin-top: 10;">
+        <VBox>
+          <Label class="input-label">Città:</Label>
+          <Entry id="city" placeholder="Città" />
+        </VBox>
+
+        <VBox>
+          <Label class="input-label">CAP:</Label>
+          <Entry id="zip" placeholder="12345" />
+        </VBox>
+      </HBox>
+    </VBox>
+
+    <!-- Note -->
+    <VBox style="margin-bottom: 20;">
+      <Label class="section-title" style="font-size: 14;">Note Aggiuntive</Label>
+      <Entry id="notes" placeholder="Inserisci eventuali note..." multiline="true" />
+    </VBox>
+
+    <!-- Bottoni di azione -->
+    <HBox>
+      <Button id="saveBtn" class="button-primary">Salva</Button>
+      <Spacer />
+      <Button id="resetBtn" class="button-danger">Reset</Button>
+    </HBox>
+  </VBox>
+</Layout>

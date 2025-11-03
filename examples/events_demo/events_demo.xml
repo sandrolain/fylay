@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Layout>
+  <!-- Stili -->
+  <Style selector=".title">
+    font-size: 24;
+    font-weight: bold;
+    text-align: center;
+    color: #2c3e50;
+  </Style>
+
+  <Style selector=".btn-primary">
+    background-color: #3498db;
+  </Style>
+
+  <Style selector=".btn-success">
+    background-color: #27ae60;
+  </Style>
+
+  <Style selector=".btn-danger">
+    background-color: #e74c3c;
+  </Style>
+
+  <!-- Layout -->
+  <VBox style="padding: 20;">
+    <Label class="title">Demo Eventi con Callback</Label>
+
+    <Rectangle style="background-color: #bdc3c7; height: 2; margin: 20;" />
+
+    <!-- Esempi con onclick -->
+    <VBox>
+      <Label style="font-weight: bold; margin-bottom: 10;">Eventi Button con onclick:</Label>
+
+      <HBox>
+        <Button onclick="onHelloClick" class="btn-primary">Saluta</Button>
+        <Button onclick="onCountClick" class="btn-success">Conta Click</Button>
+        <Button onclick="onResetClick" class="btn-danger">Reset</Button>
+      </HBox>
+
+      <Label id="messageLabel" style="margin-top: 10; text-align: center;">
+        Clicca un pulsante per vedere il messaggio
+      </Label>
+    </VBox>
+
+    <Rectangle style="background-color: #bdc3c7; height: 1; margin: 20;" />
+
+    <!-- Esempi con onchange -->
+    <VBox>
+      <Label style="font-weight: bold; margin-bottom: 10;">Eventi Entry con onchange:</Label>
+
+      <Label>Nome:</Label>
+      <Entry id="nameInput" placeholder="Inserisci il tuo nome" onchange="onNameChange" />
+
+      <Label style="margin-top: 10;">Email:</Label>
+      <Entry id="emailInput" placeholder="Inserisci email" onchange="onEmailChange" />
+
+      <Label id="statusLabel" style="margin-top: 10; color: #7f8c8d;">
+        Digita qualcosa nei campi sopra...
+      </Label>
+    </VBox>
+
+    <Rectangle style="background-color: #bdc3c7; height: 1; margin: 20;" />
+
+    <!-- Mix: ID tradizionale e onclick -->
+    <VBox>
+      <Label style="font-weight: bold; margin-bottom: 10;">Mix di approcci:</Label>
+
+      <HBox>
+        <Button id="traditionalBtn">Con ID (EventHandler)</Button>
+        <Button onclick="onMixedClick">Con onclick (Callback)</Button>
+      </HBox>
+
+      <Label id="mixedLabel" style="margin-top: 10; text-align: center;">
+        Entrambi i metodi funzionano!
+      </Label>
+    </VBox>
+  </VBox>
+</Layout>

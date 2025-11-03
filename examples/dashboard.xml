@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Layout>
+  <!-- Stili -->
+  <Style selector=".card">
+    background-color: #f5f5f5;
+    padding: 15;
+  </Style>
+
+  <Style selector=".card-title">
+    font-size: 18;
+    font-weight: bold;
+    color: #333333;
+  </Style>
+
+  <Style selector=".card-value">
+    font-size: 32;
+    font-weight: bold;
+    color: #0066cc;
+    text-align: center;
+  </Style>
+
+  <Style selector=".sidebar">
+    background-color: #2c3e50;
+    width: 200;
+  </Style>
+
+  <Style selector=".menu-item">
+    color: white;
+    padding: 10;
+  </Style>
+
+  <!-- Layout Border -->
+  <Border>
+    <!-- Sidebar sinistra -->
+    <VBox position="left" class="sidebar">
+      <Label class="menu-item" style="font-size: 20; font-weight: bold;">Menu</Label>
+      <Rectangle style="background-color: #34495e; height: 2;" />
+      <Button id="menuHome" text="Home" />
+      <Button id="menuStats" text="Statistiche" />
+      <Button id="menuSettings" text="Impostazioni" />
+    </VBox>
+
+    <!-- Header superiore -->
+    <VBox position="top" style="background-color: #ecf0f1; padding: 15;">
+      <HBox>
+        <Label style="font-size: 24; font-weight: bold;">Dashboard</Label>
+        <Spacer />
+        <Label style="font-size: 12; color: #7f8c8d;">Ultimo aggiornamento: 31/10/2025</Label>
+      </HBox>
+    </VBox>
+
+    <!-- Contenuto principale -->
+    <VBox position="center" style="padding: 20;">
+      <!-- Griglia di card -->
+      <Grid columns="3">
+        <!-- Card Utenti -->
+        <VBox class="card">
+          <Label class="card-title">Utenti Attivi</Label>
+          <Spacer />
+          <Label class="card-value">1,234</Label>
+          <Spacer />
+          <Label style="text-align: center; color: green;">+12% questo mese</Label>
+        </VBox>
+
+        <!-- Card Vendite -->
+        <VBox class="card">
+          <Label class="card-title">Vendite</Label>
+          <Spacer />
+          <Label class="card-value">€5,678</Label>
+          <Spacer />
+          <Label style="text-align: center; color: green;">+8% questo mese</Label>
+        </VBox>
+
+        <!-- Card Ordini -->
+        <VBox class="card">
+          <Label class="card-title">Ordini</Label>
+          <Spacer />
+          <Label class="card-value">234</Label>
+          <Spacer />
+          <Label style="text-align: center; color: red;">-3% questo mese</Label>
+        </VBox>
+      </Grid>
+
+      <Spacer />
+
+      <!-- Sezione dettagli -->
+      <VBox style="background-color: white; padding: 20;">
+        <Label style="font-size: 18; font-weight: bold; margin-bottom: 10;">Dettagli Recenti</Label>
+        <Rectangle style="background-color: #bdc3c7; height: 1;" />
+
+        <Grid columns="2" style="margin-top: 15;">
+          <Label style="font-weight: bold;">Data:</Label>
+          <Label>31 Ottobre 2025</Label>
+
+          <Label style="font-weight: bold;">Status:</Label>
+          <Label style="color: green;">Operativo</Label>
+
+          <Label style="font-weight: bold;">Server:</Label>
+          <Label>Online</Label>
+
+          <Label style="font-weight: bold;">Versione:</Label>
+          <Label>1.0.0</Label>
+        </Grid>
+      </VBox>
+    </VBox>
+
+    <!-- Footer -->
+    <VBox position="bottom" style="background-color: #34495e; padding: 10;">
+      <Label style="color: white; text-align: center; font-size: 10;">
+        Fylay Framework © 2025
+      </Label>
+    </VBox>
+  </Border>
+</Layout>
